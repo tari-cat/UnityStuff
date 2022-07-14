@@ -5,7 +5,7 @@ using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Revision 1.01 //
+/// Revision 1.011 //
 /// Author: <see href="https://github.com/tari-cat/UnityStuff"/>
 /// 
 /// <para>A relatively powerful audio manager for Unity.</para>
@@ -22,7 +22,7 @@ public class AudioManager : MonoBehaviour
     public AudioMixer mixer;
 
     // A list of audio sources for caching.
-    private readonly List<AudioSRC> sources = new();
+    private readonly List<AudioSRC> sources = new List<AudioSRC>();
 
     // A readonly list of audio clips. Added via the "Resources/Audio" folder.
     private AudioClip[] clips = new AudioClip[0];
@@ -56,7 +56,7 @@ public class AudioManager : MonoBehaviour
         {
             for (int i = 0; i < 32; i++)
             {
-                GameObject go = new()
+                GameObject go = new GameObject
                 {
                     name = $"(Generated) Audio Source #{i + 1}"
                 };
