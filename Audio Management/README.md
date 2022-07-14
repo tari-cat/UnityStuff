@@ -5,4 +5,4 @@ In the parent GameObject, attach the AudioManager component to it. <br/>
 In every child GameObject, attach the AudioSource component. <br/>
 <br/>
 To use, simply call AudioManager as you would call a static class. <br/>
-```AudioManager.Play("mySound");``` will play a sound named mySound from the `Resources/Audio` folder. <br/>
+```AudioManager.Play("mySound", 1f);``` will play a sound named mySound from the `Resources/Audio` folder. <br/>
