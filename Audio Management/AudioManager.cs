@@ -5,42 +5,29 @@ using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Revision 1.00 //
+/// Revision 1.01 //
 /// Author: <see href="https://github.com/tari-cat/UnityStuff"/>
 /// 
 /// <para>A relatively powerful audio manager for Unity.</para>
 /// <para>Use it as you would use a static class.</para>
 /// <para>To set it up, use <seealso cref="Resources"/>. It pulls <seealso cref="AudioClip"/> objects from the "Resources/Audio" folder.</para>
-/// <para>You can manually create an <seealso cref="AudioManager"/> by giving the <seealso cref="AudioManager"/> component to an empty GameObject,</para>
-/// <para>then adding 32 (or however many sources you want) child objects and giving each the <seealso cref="AudioSource"/> component.</para>
+/// <para>You can manually create an <seealso cref="AudioManager"/> by giving the <seealso cref="AudioManager"/> component to an empty GameObject, then adding 32 (or however many sources you want) child objects and giving each the <seealso cref="AudioSource"/> component.</para>
 /// <code>
 /// AudioManager.Play("mySound");
 /// </code>
 /// </summary>
 public class AudioManager : MonoBehaviour
 {
-    // A list of audio sources for caching.
-    private readonly List<AudioSRC> sources = new List<AudioSRC>();
-
     // The audio mixer to use.
-    [SerializeField]
     public AudioMixer mixer;
+
+    // A list of audio sources for caching.
+    private readonly List<AudioSRC> sources = new();
 
     // A readonly list of audio clips. Added via the "Resources/Audio" folder.
     private AudioClip[] clips = new AudioClip[0];
 
     public static AudioClip[] Clips { get => Instance.clips; }
-
-    // Creates an audio manager instance.
-    private static GameObject CreateInstance()
-    {
-        GameObject go = new GameObject
-        {
-            name = "Generated Audio Manager"
-        };
-        go.AddComponent<AudioManager>();
-        return go;
-    }
 
     private static GameObject _instance;
 
@@ -51,11 +38,44 @@ public class AudioManager : MonoBehaviour
         {
             if (_instance == null)
             {
-                Debug.LogWarning("There is no AudioManager in the scene. Creating one. (this is an intensive operation!)");
-                _instance = CreateInstance();
+                _instance = new GameObject
+                {
+                    name = "(Generated) Audio Manager"
+                };
+                _instance.AddComponent<AudioManager>();
             }
 
             return _instance.GetComponent<AudioManager>();
+        }
+    }
+
+    private void GenerateAudioSources()
+    {
+        // Generate Audio Sources
+        if (transform.childCount == 0)
+        {
+            for (int i = 0; i < 32; i++)
+            {
+                GameObject go = new()
+                {
+                    name = $"(Generated) Audio Source #{i + 1}"
+                };
+                go.AddComponent<AudioSource>();
+                go.transform.parent = gameObject.transform;
+            }
+        }
+    }
+
+    private void GetAudioSources()
+    {
+        int count = Mathf.Min(32, transform.childCount);
+        for (int i = 0; i < count; i++)
+        {
+            Transform c = transform.GetChild(i);
+            if (c.GetComponent<AudioSource>() != null)
+            {
+                sources.Add(new AudioSRC(c.gameObject));
+            }
         }
     }
 
@@ -79,43 +99,20 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        if (_instance != null && _instance != this)
-        {
-            DestroyImmediate(gameObject);
+        if (_instance != null && _instance != gameObject)
             return;
-        }
+        _instance = gameObject;
 
         SceneManager.activeSceneChanged -= OnSceneChange; // unsub if subbed or not
         SceneManager.activeSceneChanged += OnSceneChange; // prevents double sub
 
-        // Generate Audio Sources
-        if (transform.childCount == 0)
-        {
-            for (int i = 0; i < 32; i++)
-            {
-                GameObject go = new GameObject
-                {
-                    name = "Generated Audio Source"
-                };
-                AudioSource src = go.AddComponent<AudioSource>();
-                go.transform.parent = gameObject.transform;
-            }
-        }
+        GenerateAudioSources();
 
         // Get Audio Sources and add them
-        int count = Mathf.Min(32, transform.childCount);
-        for (int i = 0; i < count; i++)
-        {
-            Transform c = transform.GetChild(i);
-            if (c.GetComponent<AudioSource>() != null)
-            {
-                sources.Add(new AudioSRC(c.gameObject));
-            }
-        }
+        GetAudioSources();
 
         // Generate Clips cache from resources
         BuildCache();
-        // Singleton stuff
     }
 
     // A lot of methods that go without explanation. These ones simply play a sound.
