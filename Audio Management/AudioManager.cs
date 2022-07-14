@@ -5,7 +5,7 @@ using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Revision 1.012 //
+/// Revision 1.013 //
 /// Author: <see href="https://github.com/tari-cat/UnityStuff"/>
 /// 
 /// <para>A relatively powerful audio manager for Unity.</para>
@@ -102,6 +102,7 @@ public class AudioManager : MonoBehaviour
         if (_instance != null && _instance != gameObject)
             return;
         _instance = gameObject;
+        DontDestroyOnLoad(gameObject);
 
         SceneManager.activeSceneChanged -= OnSceneChange; // unsub if subbed or not
         SceneManager.activeSceneChanged += OnSceneChange; // prevents double sub
