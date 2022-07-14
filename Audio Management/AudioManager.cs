@@ -5,7 +5,7 @@ using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Revision 1.011 //
+/// Revision 1.012 //
 /// Author: <see href="https://github.com/tari-cat/UnityStuff"/>
 /// 
 /// <para>A relatively powerful audio manager for Unity.</para>
@@ -13,7 +13,7 @@ using UnityEngine.SceneManagement;
 /// <para>To set it up, use <seealso cref="Resources"/>. It pulls <seealso cref="AudioClip"/> objects from the "Resources/Audio" folder.</para>
 /// <para>You can manually create an <seealso cref="AudioManager"/> by giving the <seealso cref="AudioManager"/> component to an empty GameObject, then adding 32 (or however many sources you want) child objects and giving each the <seealso cref="AudioSource"/> component.</para>
 /// <code>
-/// AudioManager.Play("mySound");
+/// AudioManager.Play("mySound", 1f);
 /// </code>
 /// </summary>
 public class AudioManager : MonoBehaviour
