@@ -2,10 +2,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Revision 1.00 // Author: <see href="https://github.com/tari-cat/UnityStuff"/>
+/// Revision 1.01 // Author: <see href="https://github.com/tari-cat/UnityStuff"/>
 /// 
 /// <para>The Level Generator takes in an array of <seealso cref="Room"/> prefabs, and does a lot of calculations at runtime to place rooms.</para>
 /// <para>The <see cref="depth"/> value is responsible for how recursive the process is. Be careful when above 10 depth as it can be slow.</para>
+/// <para>The <see cref="rotateRooms"/> value is responsible for rotating rooms in generation, 90 degrees per rotation, per room prefab.</para>
 /// </summary>
 public class LevelGenerator : MonoBehaviour
 {
@@ -16,10 +17,13 @@ public class LevelGenerator : MonoBehaviour
     [Tooltip("The amount of times to generate rooms from one room.")]
     public int depth;
 
+    [Tooltip("Rooms get rotated whenever checking if it can be placed, 4 times. Toggling this off will not rotate rooms during generation.")]
+    public bool rotateRooms = true;
+
     private readonly List<Room> placedRooms = new List<Room>();
     private readonly List<int> checkedTransforms = new List<int>();
 
-    public void Start()
+    private void Start()
     {
         if (rooms.Length > 0)
         {
@@ -31,7 +35,7 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
-    public void PlaceRoom(int depth, Room firstRoom = null)
+    private void PlaceRoom(int depth, Room firstRoom = null)
     {
         if (firstRoom == null)
         {
@@ -58,11 +62,13 @@ public class LevelGenerator : MonoBehaviour
         checkedTransforms.Add(root.GetInstanceID()); // first time using instance ids, hopefully this is fine?
         List<Room> validatedRooms = new List<Room>();
 
+        int rotation = rotateRooms ? 4 : 1; // Setting this to 1 (when rotateRooms is off) will only get it through the first loop, therefore not rotating the room
+
         // Loop through all possible rooms
         foreach (Room r in rooms)
         {
             // Rotate the room 90 degrees each time, instantiate after the for loop
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < rotation; i++)
             {
                 // Loop through all possible entrances of said room
                 for (int j = 0; j < r.entrances.Length; j++)
