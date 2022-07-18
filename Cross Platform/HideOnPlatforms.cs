@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Revision 1.00 // Author: <see href="https://github.com/tari-cat/UnityStuff"/>
+/// Revision 1.001 // Author: <see href="https://github.com/tari-cat/UnityStuff"/>
 /// 
 /// <para>A simple script to disable a <seealso cref="GameObject"/>, based on the build device.</para>
 /// </summary>
-public class HideOnDevices : MonoBehaviour
+public class HideOnPlatforms : MonoBehaviour
 {
     [Header("Editor")]
     /// <summary> Hide on all editor versions of Unity. </summary> 
