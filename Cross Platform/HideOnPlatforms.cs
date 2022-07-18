@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Revision 1.001 // Author: <see href="https://github.com/tari-cat/UnityStuff"/>
+/// Revision 1.002 // Author: <see href="https://github.com/tari-cat/UnityStuff"/>
 /// 
 /// <para>A simple script to disable a <seealso cref="GameObject"/>, based on the build device.</para>
 /// </summary>
@@ -11,41 +11,41 @@ public class HideOnPlatforms : MonoBehaviour
 {
     [Header("Editor")]
     /// <summary> Hide on all editor versions of Unity. </summary> 
-    [SerializeField] public bool hideInAllEditors = false;
+    [SerializeField] private bool hideInAllEditors;
     /// <summary> Hide on the editor version of Unity that runs on Windows. </summary>
-    [SerializeField] public bool hideInWindowsEditor = false;
+    [SerializeField] private bool hideInWindowsEditor;
     /// <summary> Hide on the editor version of Unity that runs on OSX. </summary>
-    [SerializeField] public bool hideInMacEditor = false;
+    [SerializeField] private bool hideInMacEditor;
     /// <summary> Hide on the editor version of Unity that runs on Linux. </summary>
-    [SerializeField] public bool hideInLinuxEditor = false;
+    [SerializeField] private bool hideInLinuxEditor;
     [Header("Standalone")]
     /// <summary> Hide on all standalone versions of Unity. </summary>
-    [SerializeField] public bool hideOnAllStandalonePlatforms = false;
+    [SerializeField] private bool hideOnAllStandalonePlatforms;
     /// <summary> Hide on the Windows version of Unity. </summary>
-    [SerializeField] public bool hideOnWindows = false;
+    [SerializeField] private bool hideOnWindows;
     /// <summary> Hide on the OSX version of Unity. </summary>
-    [SerializeField] public bool hideOnMac = false;
+    [SerializeField] private bool hideOnMac;
     /// <summary> Hide on the Linux version of Unity. </summary>
-    [SerializeField] public bool hideOnLinux = false;
+    [SerializeField] private bool hideOnLinux;
     [Header("Mobile")]
     /// <summary> Hide on the iOS version of Unity. </summary>
-    [SerializeField] public bool hideOnIOS = false;
+    [SerializeField] private bool hideOnIOS;
     /// <summary> Hide on the Android version of Unity. </summary>
-    [SerializeField] public bool hideOnAndroid = false;
+    [SerializeField] private bool hideOnAndroid;
     [Header("Console")]
     /// <summary> Hide on the Wii version of Unity. </summary>
-    [SerializeField] public bool hideOnWii = false;
+    [SerializeField] private bool hideOnWii;
     /// <summary> Hide on the Playstation 4 version of Unity. </summary>
-    [SerializeField] public bool hideOnPS4 = false;
+    [SerializeField] private bool hideOnPS4;
     /// <summary> Hide on the Xbox One version of Unity. </summary>
-    [SerializeField] public bool hideOnXboxOne = false;
+    [SerializeField] private bool hideOnXboxOne;
     [Header("Other")]
     /// <summary> Hide on the Lumin version of Unity. </summary>
-    [SerializeField] public bool hideOnLumin = false;
+    [SerializeField] private bool hideOnLumin;
     /// <summary> Hide on the Tizen version of Unity. </summary>
-    [SerializeField] public bool hideOnTizen = false;
+    [SerializeField] private bool hideOnTizen;
     /// <summary> Hide on the Apple TV version of Unity. </summary>
-    [SerializeField] public bool hideOnAppleTV = false;
+    [SerializeField] private bool hideOnAppleTV;
     void Awake()
     {
 #if UNITY_EDITOR
